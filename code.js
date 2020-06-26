@@ -5,6 +5,8 @@ console.log(gameHolder)
 
 //create a card function
 
+let card = document.getElementsByClassName("card");
+
 let cards = [...card];
 
 for (let i = 0; i < cards.length; i++) {
@@ -84,11 +86,53 @@ function enable(){
     });
 }
 
+let second = 0, minute = 0;
+let timer = document.querySelector(".timer");
+let interval;
+function startTimer(){
+    interval = setInterval(() => {
+        timer.innerHTML = minute+"mins "+second+"secs";
+        second++;
+        if(second == 60){
+            minute++;
+            second = 0;
+        }
+        if(minute == 60){
+            hour++;
+            minute = 0;
+        }
+        
+    },1000);
+}
+
 function moveCounter(){
     moves++;
     moveCounter.innerHTML = moves;
+
+    if(moves == 1){
+        second = 0;
+        minute = 0;
+        hour = 0;
+        startTimer();
+    }
+}
+
+startGame(){
+
+    let timer = document.querySelector(".timer");
+    timer.innerHTML = "0 mins 0 secs";
+    clearInterval(interval);
 }
 
 
+
+
+
+
  let restartButton = document.createElement("button");
- restartButton.setAttribute("class", "button")
+ restartButton.setAttribute("class", "button-style");
+ restartButton = document.querySelector(".button-style")
+
+
+
+

@@ -1,5 +1,35 @@
 const gameHolder = document.getElementById("game");
 console.log(gameHolder)
+console.log(Math.random)
+
+const createCard = (id) =>{
+    let newCard = document.createElement("div");
+    newCard.setAttribute("id", id);
+    newCard.className = 'card';
+    newCard.addEventListener("click", cardClicked)
+    return newCard
+}
+//YOU NEED TO RANDOMIZE YOUR CARDS
+//YOU NEED TO CHANGE THIS
+const cardClicked = (evt)=>{
+    let cardNode = evt.target
+    let card = cards.find(card=>card.id == cardNode.id)
+    turnFaceUp(card)
+    if(!selected){
+        selected = card;
+    } else if(selected.value == card.value){
+        console.log('match')
+        window.setTimeout(()=>{
+            card.node.parentNode.removeChild(card.node)
+            selected.node.parentNode.removeChild(selected.node)
+            reset()
+        }, 3000)
+    } else {
+        console.log('No Match')
+        window.setTimeout(reset, 3000)
+    }
+}
+
 
 let cards = [['card1',"cat", "img.jpg"],['card2',"cat", "img.jpg"],['card3',"dog", "img.jpg"],['card4','dog', "img.jpg"]].map(cardArr=>{
     return {
@@ -11,9 +41,9 @@ let cards = [['card1',"cat", "img.jpg"],['card2',"cat", "img.jpg"],['card3',"dog
     }
 })
 
-for (var i = 0; i < [cards].length; i++) {
-    cards[i].addEventListener("click", displayCard);
-};
+// for (var i = 0; i < [cards].length; i++) {
+//     cards[i].addEventListener("click", displayCard);
+// };
 
 var cardsShown = function(){
     this.classlist.toggle("up");
@@ -21,13 +51,14 @@ var cardsShown = function(){
     this.classlist.toggle("remove");
 }
 
-function shuffle(array) {
-var (let i = array.length - 1; i > 0; i--) {
+function shuffle(cards) {
+for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * i)
-    const temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
+    const temp = cards[i]
+    cards[i] = cards[j]
+    cards[j] = temp
   }
+  return cards
 } 
 
 const deck = document.querySelector(".deck");
@@ -40,7 +71,7 @@ function startGame(){
     }
 }
 
-window.onload = startGame();
+document.body.onload = startGame();
 
 
 function cardOpen() {
@@ -99,7 +130,8 @@ function moveCounter(){
     moveCounter.innerHTML = moves;
 }
 
-
- let restartButton = document.createElement("button");
- restartButton.setAttribute("class", "button")
+function restartGame(){
+ modal.classList.remove("show");
+ startGame();
+}
 

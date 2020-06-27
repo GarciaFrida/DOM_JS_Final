@@ -1,26 +1,28 @@
 const gameHolder = document.getElementById("game");
 console.log(gameHolder)
 
+let cards = [['card1',"cat", "img.jpg"],['card2',"cat", "img.jpg"],['card3',"dog", "img.jpg"],['card4','dog', "img.jpg"]].map(cardArr=>{
+    return {
+        id:cardArr[0],
+        node:createCard(cardArr[0]),
+        sideShown:'front',
+        value:cardArr[1],
+        faceImage:cardArr[2]
+    }
+})
 
-
-//create a card function
-
-let card = document.getElementsByClassName("card");
-
-let cards = [...card];
-
-for (let i = 0; i < cards.length; i++) {
+for (var i = 0; i < [cards].length; i++) {
     cards[i].addEventListener("click", displayCard);
 };
 
-let cardsShown = ()=>{
+var cardsShown = function(){
     this.classlist.toggle("up");
     this.classlist.toggle("show");
     this.classlist.toggle("remove");
 }
 
 function shuffle(array) {
-for (let i = array.length - 1; i > 0; i--) {
+var (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * i)
     const temp = array[i]
     array[i] = array[j]
@@ -30,7 +32,7 @@ for (let i = array.length - 1; i > 0; i--) {
 
 const deck = document.querySelector(".deck");
 function startGame(){
-    let shuffleCards = shuffle(cards);
+    var shuffleCards = shuffle(cards);
     for (var i = 0; i < shuffleCards.length; i++){
         [].forEach.call(shuffleCards, function(item){
             deck.appendChild(item);
@@ -41,13 +43,13 @@ function startGame(){
 window.onload = startGame();
 
 
-function cardUp() {
+function cardOpen() {
     openedCards.push(this);
-    let len = openedCards.length;
+    var len = openedCards.length;
     if(len ===2){
         moveCounter();
         if(openedCards[0].type === openedCards[1].type){
-            match();
+            matched();
         } else {
             unmatched();
         }
@@ -76,63 +78,28 @@ function unmatched(){
     },1100);
 }
 
+function disable(){
+    Array.prototype.filter.call(cards, function(card){
+        card.classList.add("disabled");
+    });
+}
+
 function enable(){
     Array.prototype.filter.call(cards, function(card){
         card.classList.remove('disabled');
-        for(let i = 0; i < matchedCard.length; i++){
+        for(var i = 0; i < matchedCard.length; i++){
             matchedCard[i].classList.add("disabled");
         }
 
     });
 }
 
-let second = 0, minute = 0;
-let timer = document.querySelector(".timer");
-let interval;
-function startTimer(){
-    interval = setInterval(() => {
-        timer.innerHTML = minute+"mins "+second+"secs";
-        second++;
-        if(second == 60){
-            minute++;
-            second = 0;
-        }
-        if(minute == 60){
-            hour++;
-            minute = 0;
-        }
-        
-    },1000);
-}
-
 function moveCounter(){
     moves++;
     moveCounter.innerHTML = moves;
-
-    if(moves == 1){
-        second = 0;
-        minute = 0;
-        hour = 0;
-        startTimer();
-    }
 }
-
-startGame(){
-
-    let timer = document.querySelector(".timer");
-    timer.innerHTML = "0 mins 0 secs";
-    clearInterval(interval);
-}
-
-
-
-
 
 
  let restartButton = document.createElement("button");
- restartButton.setAttribute("class", "button-style");
- restartButton = document.querySelector(".button-style")
-
-
-
+ restartButton.setAttribute("class", "button")
 

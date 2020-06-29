@@ -1,45 +1,29 @@
-const gameHolder = document.getElementById("game");
-console.log(gameHolder)
+
 console.log(Math.random)
 
-const createCard = (id) =>{
-    let newCard = document.createElement("div");
-    newCard.setAttribute("id", id);
-    newCard.className = 'card';
-    newCard.addEventListener("click", cardClicked)
-    return newCard
-}
-//YOU NEED TO RANDOMIZE YOUR CARDS
-//YOU NEED TO CHANGE THIS
-const cardClicked = (evt)=>{
-    let cardNode = evt.target
-    let card = cards.find(card=>card.id == cardNode.id)
-    turnFaceUp(card)
-    if(!selected){
-        selected = card;
-    } else if(selected.value == card.value){
-        console.log('match')
-        window.setTimeout(()=>{
-            card.node.parentNode.removeChild(card.node)
-            selected.node.parentNode.removeChild(selected.node)
-            reset()
-        }, 3000)
-    } else {
-        console.log('No Match')
-        window.setTimeout(reset, 3000)
-    }
-}
+
+let card = document.getElementsByClassName("card");
+
+let cards = [...card];
+const deck = document.getElementById("card-deck");
+let matchedCard = document.getElementsByClassName("match");
+
+let newCards = [];
 
 
-let cards = [['card1',"cat", "img.jpg"],['card2',"cat", "img.jpg"],['card3',"dog", "img.jpg"],['card4','dog', "img.jpg"]].map(cardArr=>{
-    return {
-        id:cardArr[0],
-        node:createCard(cardArr[0]),
-        sideShown:'front',
-        value:cardArr[1],
-        faceImage:cardArr[2]
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
     }
-})
+
+    return array;
+};
 
 // for (var i = 0; i < [cards].length; i++) {
 //     cards[i].addEventListener("click", displayCard);
@@ -51,35 +35,43 @@ var cardsShown = function(){
     this.classlist.toggle("remove");
 }
 
-function shuffle(cards) {
-for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * i)
-    const temp = cards[i]
-    cards[i] = cards[j]
-    cards[j] = temp
-  }
-  return cards
-} 
+// document.body.onload = startGame();
 
-const deck = document.querySelector(".deck");
-function startGame(){
-    var shuffleCards = shuffle(cards);
-    for (var i = 0; i < shuffleCards.length; i++){
-        [].forEach.call(shuffleCards, function(item){
-            deck.appendChild(item);
-        });
-    }
-}
+// function startGame(){
+ 
 
-document.body.onload = startGame();
+//     newCards = [];
+
+
+//     cards = shuffle(cards);
+
+//     for (var i = 0; i < cards.length; i++){
+//         deck.innerHTML = "";
+//         [].forEach.call(cards, function(item) {
+//             deck.appendChild(item);
+//         });
+//         cards[i].classList.remove("show", "open", "match", "disabled");
+//     }
+// }
+
+// const deck = document.querySelector(".deck");
+// function startGame(){
+//     var shuffleCards = shuffle(cards);
+//     for (var i = 0; i < shuffleCards.length; i++){
+//         [].forEach.call(shuffleCards, function(item){
+//             deck.appendChild(item);
+//         });
+//     }
+// }
+
 
 
 function cardOpen() {
-    openedCards.push(this);
-    var len = openedCards.length;
+    newCards.push(this);
+    var len = newCards.length;
     if(len ===2){
         moveCounter();
-        if(openedCards[0].type === openedCards[1].type){
+        if(newCards[0].type === newCards[1].type){
             matched();
         } else {
             unmatched();
@@ -88,23 +80,23 @@ function cardOpen() {
 };
 
 function matched(){
-    openedCards[0].classList.add("match");
-    openedCards[1].classList.add('match');
-    openedCards[0].classList.remove("show", "up");
-    openedCards[0].classList.remove("show", "up");
-    openedCards = [];
+    newCards[0].classList.add("match");
+    newCards[1].classList.add('match');
+    newCards[0].classList.remove("show", "up");
+    newCards[0].classList.remove("show", "up");
+    newCards = [];
 
 }
 
 function unmatched(){
-    openedCards[0].classList.add("unmatched");
-    openedCards[1].classList.add("unmatched");
+    newCards[0].classList.add("unmatched");
+    newCards[1].classList.add("unmatched");
     disable();
     setTimeout(function(){
-        openedCards[0].classList.remove("show", "up", "unmatched");
-        openedCards[1].classList.remove("show", "up", "unmatched");
+        newCards[0].classList.remove("show", "up", "unmatched");
+        newCards[1].classList.remove("show", "up", "unmatched");
         enable();
-        openedCards = [];
+        newCards = [];
 
     },1100);
 }
@@ -125,6 +117,25 @@ function enable(){
     });
 }
 
+document.body.onload = startGame()
+
+    function startGame(){
+ 
+
+        newCards = [];
+
+
+        cards = shuffle(cards);
+
+        for (var i = 0; i < cards.length; i++){
+            deck.innerHTML = "";
+            [].forEach.call(cards, function(item) {
+            deck.appendChild(item);
+            });
+            cards[i].classList.remove("show", "open", "match", "disabled");
+        }
+    }
+
 function moveCounter(){
     moves++;
     moveCounter.innerHTML = moves;
@@ -133,5 +144,4 @@ function moveCounter(){
 function restartGame(){
  modal.classList.remove("show");
  startGame();
-}
-
+};
